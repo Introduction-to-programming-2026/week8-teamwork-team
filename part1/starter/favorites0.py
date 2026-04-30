@@ -13,7 +13,8 @@
 
 import csv
 
-# TODO: Open favorites.csv for reading
-# TODO: Create a csv.reader object
-# TODO: Skip the header row using next()
-# TODO: Loop over the remaining rows and print the language column
+with open("favorites.csv", "r") as file:
+    reader = csv.reader(file)
+    next(reader)
+    for row in reader:
+        print(row[1])
