@@ -11,6 +11,5 @@ with open("favorites.csv", "r") as file:
     reader = csv.reader(file)
     next(reader)
     for row in reader:
-        # TODO: Store row[1] in a variable called 'favorite'
-        # TODO: Print favorite
-        pass
+        favorite = row[1]
+        print(favorite)
