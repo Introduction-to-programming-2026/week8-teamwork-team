@@ -7,35 +7,57 @@
 import csv
 
 # ── Step 1: Set up storage variables ─────────────────────────────────────────
-scores = []          # we'll collect all scores here for the average
+scores = []
 grade_counts = {"A": 0, "B": 0, "C": 0, "D": 0, "F": 0}
 
-# We track highest and lowest as dicts so we can store the name too
 highest = {"name": "", "score": -1}
-lowest  = {"name": "", "score": 101}   # Why 101? Discuss with your pair.
+lowest  = {"name": "", "score": 101}
 
 # ── Step 2: Read the CSV ──────────────────────────────────────────────────────
 with open("grades.csv", "r") as file:
     reader = csv.DictReader(file)
     for row in reader:
         name  = row["name"]
-        score = int(row["score"])   # IMPORTANT: CSV values are strings — must convert
+        score = int(row["score"])
 
-        # TODO: Append score to the scores list
+        # Append score to the scores list
+        scores.append(score)
 
-        # TODO: Update highest if this score is greater than highest["score"]
+        # Update highest
+        if score > highest["score"]:
+            highest["name"] = name
+            highest["score"] = score
 
-        # TODO: Update lowest if this score is less than lowest["score"]
+        # Update lowest
+        if score < lowest["score"]:
+            lowest["name"] = name
+            lowest["score"] = score
 
-        # TODO: Determine the letter grade using if/elif/else
-        #   A = 90-100, B = 80-89, C = 70-79, D = 60-69, F = 0-59
-        # TODO: Increment grade_counts[letter] by 1
+        # Determine letter grade
+        if score >= 90:
+            letter = "A"
+        elif score >= 80:
+            letter = "B"
+        elif score >= 70:
+            letter = "C"
+        elif score >= 60:
+            letter = "D"
+        else:
+            letter = "F"
+
+        # Increment grade_counts
+        grade_counts[letter] += 1
 
 # ── Step 3: Calculate the average ────────────────────────────────────────────
-# TODO: average = sum(scores) / len(scores)  — round to 1 decimal place
-average = ???
+average = round(sum(scores) / len(scores), 1)
 
 # ── Step 4: Print the report ──────────────────────────────────────────────────
 print("=== Quiz Grade Summary ===")
-# TODO: Print all summary lines matching the expected output format
-# Hint: use f-strings. For alignment, try f"{label:<20} {value}"
+print(f"{'Average score:':<20} {average}")
+print(f"{'Highest score:':<20} {highest['score']} ({highest['name']})")
+print(f"{'Lowest score:':<20} {lowest['score']} ({lowest['name']})")
+print()
+print("Grade distribution:")
+for letter, count in grade_counts.items():
+    print(f"  {letter} : {count} students")
+
