@@ -2,7 +2,7 @@
 # Task: Count languages using a single dictionary instead of separate variables.
 #
 # Why is this better than favorites4?
-#   - Works for any number of languages — no hard-coding
+#   - Works for any number of languages – no hard-coding
 #   - Adding a new language to the CSV requires zero code changes
 #
 # Expected output (order may vary):
@@ -20,7 +20,13 @@ with open("favorites.csv", "r") as file:
     for row in reader:
         favorite = row["language"]
         # TODO: If favorite is already in counts, increment counts[favorite] by 1
+        if favorite in counts:
+            counts[favorite] += 1
         # TODO: Otherwise, set counts[favorite] = 1
+        else:
+            counts[favorite] = 1
 
     # TODO: Print each key-value pair in counts
-    #       Format: "Python: 196"
+    for language, count in counts.items():
+        # Format: "Python: 196"
+        print(f"{language}: {count}")
