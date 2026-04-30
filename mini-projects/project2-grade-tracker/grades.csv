@@ -1,16 +1,44 @@
-name,score
-Alice,88
-Bob,73
-Carol,92
-David,55
-Emine,41
-Fatih,67
-Grace,91
-Hassan,78
-Irem,84
-Jorge,60
-Kaya,95
-Layla,49
-Marco,71
-Nadia,83
-Omar,66
+# Run from this folder:
+#   python starter.py
+
+import csv
+
+scores = []
+
+with open("grades.csv", "r") as file:
+    reader = csv.DictReader(file)
+    for row in reader:
+        name = row["name"]
+        score = int(row["score"])
+        scores.append((name, score))
+
+# Calculate stats
+total = len(scores)
+average = sum(s for _, s in scores) / total
+highest = max(scores, key=lambda x: x[1])
+lowest = min(scores, key=lambda x: x[1])
+
+# Grade buckets
+buckets = {"90-100": [], "80-89": [], "70-79": [], "60-69": [], "0-59": []}
+
+for name, score in scores:
+    if score >= 90:
+        buckets["90-100"].append(score)
+    elif score >= 80:
+        buckets["80-89"].append(score)
+    elif score >= 70:
+        buckets["70-79"].append(score)
+    elif score >= 60:
+        buckets["60-69"].append(score)
+    else:
+        buckets["0-59"].append(score)
+
+# Print report
+print("=== Quiz Score Report ===")
+print(f"Average score : {average:.1f}")
+print(f"Highest score : {highest[1]} ({highest[0]})")
+print(f"Lowest score  : {lowest[1]} ({lowest[0]})")
+print()
+print("Grade distribution:")
+for bucket, students in buckets.items():
+    print(f"  {bucket} : {len(students)} students")
